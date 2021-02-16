@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>application</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+  <div id="app">
+    <div class="container overflow-hidden" style="padding-top: 30px">
+      <div class="row gy-5">
+        <div class="col-6">
+          <div class="p-3 border bg-light">
+            <table class="table table-bordered border-primary">
+              <thead>
+                <tr class="table-primary">
+                  <th scope="col"></th>
+                  <th scope="col">姓名</th>
+                  <th scope="col">電話</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="table-primary" v-for="(data, index) in dataList">
+                  <th scope="row">{{ index + 1 }}</th>
+                  <td class="table-primary">{{ data[0] }}</td>
+                  <td class="table-primary">{{ data[1] }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="p-3 border bg-light">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default">姓名</span>
+              <input type="text" class="form-control" v-model="name" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default">電話</span>
+              <input type="text" class="form-control" v-model="cellphone" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default">
+            </div>
+            <button type="button" class="btn btn-success" @click="appendRow">新增</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./js/application.js"></script>
+</body>
+</html>
