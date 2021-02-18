@@ -17,10 +17,21 @@ app.get('/', (req, res) => {
 });
 
 app.post('/getData', (req, res) => {
-  getData().then(function(data) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(data));
-    // client.set('dataList', JSON.stringify(data), redis.print);
+  let breakFlag = false
+  client.get('dataList', (error, result) => {
+    if (error) {
+      console.log(error)
+    }
+    if (!!result) {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(result);
+    } else {
+      getData().then(function(dataList) {
+        client.set('dataList', JSON.stringify(dataList), redis.print);
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(dataList));
+      })
+    }
   })
 })
 
@@ -31,15 +42,21 @@ io.on('connection', (socket) => {
     }
     appendRow(data).then(function(res) {
       if (res) {
-        // client.get('dataList', (error, result) => {
-        //   if (error) {
-        //     console.log(error);
-        //     throw error;
-        //   }
-        //   console.log(result)
-        // });
-        // client.set('dataList', , redis.print);
-        io.emit('emitData', data);
+        io.emit('emitData', data)
+        client.get('dataList', (error, result) => {
+          if (error) {
+            console.log(error)
+          }
+          if (!!result) {
+            let dataList = JSON.parse(result)
+            dataList.push([data.name, data.cellphone])
+            client.set('dataList', JSON.stringify(dataList), redis.print);
+          } else {
+            getData().then(function(dataList) {
+              client.set('dataList', JSON.stringify(dataList), redis.print)
+            })
+          }
+        });
       }
     })
   });
