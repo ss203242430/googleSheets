@@ -24,9 +24,9 @@
               </thead>
               <tbody>
                 <tr class="table-primary" v-for="(data, index) in dataList">
-                  <th scope="row">{{ index + 1 }}</th>
-                  <td class="table-primary">{{ data[0] }}</td>
-                  <td class="table-primary">{{ data[1] }}</td>
+                  <th scope="row" v-cloak>{{ index + 1 }}</th>
+                  <td class="table-primary" v-cloak>{{ data[0] }}</td>
+                  <td class="table-primary" v-cloak>{{ data[1] }}</td>
                 </tr>
               </tbody>
             </table>
